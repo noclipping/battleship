@@ -13,17 +13,73 @@ document.addEventListener('DOMContentLoaded',()=>{
     const turnDisplay = document.querySelector('#whose-go')
     const infoDisplay = document.querySelector('#info')
     const userSquares = []
+    const computerSquares = []
     const width = 10;
     // Create board
-    function createBoard(){
+    function createBoard(grid, squares){
         for(let i = 0; i < width*width; i++){
             const square = document.createElement('div')
-            squares.dataset
-            userGrid.appendChild(square)
-            userSquares.push(square)
+            square.dataset.id = i
+            grid.appendChild(square)
+            squares.push(square)
         }
     }
+    createBoard(userGrid, userSquares)
+    createBoard(computerGrid, computerSquares)
+
+    const shipArray = [
+        {
+            name: 'destroyer',
+            directions: [
+                [0, 1],
+                [0,width]
+            ]
+        },
+        {
+            name:'submarine',
+            directions:[
+                [0, 1, 2],
+                [0, width, width*2]
+            ]
+        },
+        {
+            name:'cruiser',
+            directions:[
+                [0, 1, 2],
+                [0, width, width*2]
+            ]
+        },
+        {
+            name:'battleship',
+            directions:[
+                [0, 1, 2],
+                [0, width, width*2, width*3]
+            ]
+        },
+        {
+            name:'carrier',
+            directions:[
+                [0, 1, 2, 3, 4],
+                [0, width, width*2, width*3, width*4]
+            ]
+        },
+    ]
+
+    // draw computer ships in random locations
+    function generate(ship){
+        let randomDirection = Math.floor(Math.random() * ship.directions.length)
+        let current = ship.directions[randomDirection]
+        if(randomDirection===0) direction = 1
+        if(randomDirection===1) direction = 10
+        let randomStart = Math.floor( Math.random() * computerSquares.length - (ship.directions[0].length * direction) )
+
+        const isTaken = current.some(index=> computerSquares[randomStart + index])
+
+    }
+
+
 })
 
-
-//25:04
+//                    35:56
+//
+// https://www.youtube.com/watch?v=U64vIhh0TyM&t=1504s
