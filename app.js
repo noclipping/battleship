@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         {
             name:'battleship',
             directions:[
-                [0, 1, 2],
+                [0, 1, 2, 3],
                 [0, width, width*2, width*3]
             ]
         },
@@ -67,19 +67,24 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     // draw computer ships in random locations
     function generate(ship){
-        let randomDirection = Math.floor(Math.random() * ship.directions.length)
-        let current = ship.directions[randomDirection]
+        let randomDirection = Math.floor(Math.random() * ship.directions.length) // 0 or 1 cause theres 2 indices in directions
+        let current = ship.directions[randomDirection] // grab either the horizontal or vertical (1st or 2nd array in dirs)
         if(randomDirection===0) direction = 1
         if(randomDirection===1) direction = 10
+        // she does something very redundant which is basically reinstates the 2 arrays in DIRECTIONS in the parentheses,
+        // ship.directions[0].length * direction is the same as ship.directions[1].length * direction... it's the length.
+        // Math.random()*computersquares.length is the same as saying random num between 0-100. computerSquares.length is
+        // redundant, and really could just be the number 100. so for cruiser, it would be:
+        // randomStart = randomNum(0-100) - 3
         let randomStart = Math.floor( Math.random() * computerSquares.length - (ship.directions[0].length * direction) )
 
-        const isTaken = current.some(index=> computerSquares[randomStart + index])
-
+        const isTaken = current.some(index=> computerSquares[randomStart + index].classList.contains('taken'))
+        const isAtRightEdge = current.some(index=>(randomStart + index) % width === width - 1)
     }
 
 
 })
 
-//                    35:56
+//                    38:30
 //
 // https://www.youtube.com/watch?v=U64vIhh0TyM&t=1504s
